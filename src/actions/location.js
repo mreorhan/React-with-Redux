@@ -38,19 +38,13 @@ export function addLocation({title,content,contributors="5af830f2a1507929ec16a22
         })
     }
 }
-export function editLocation({title,content}){
-    let contributors="5af830f2a1507929ec16a221",createdBy="5af830f2a1507929ec16a221",storyId="1",status=2,dueDate="2018-09-08T11:22";
+export function editLocation(title,content,id){
     return dispatch=>{
         dispatch({
             type:"EDIT_LOCATIONS",
-            payload: Axios.put(`${API_BASE}/tasks`,{
-                storyId,
-                title:title,
-                content:content,
-                status,
-                contributors,
-                dueDate,
-                createdBy
+            payload: Axios.put(`${API_BASE}/tasks/update/${id}`,{
+                title:`${title}`,
+                content:`${content}`,
             })
         })
     }

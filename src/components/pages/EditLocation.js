@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchLocationById} from '../../actions/location'
+import {fetchLocationById,editLocation} from '../../actions/location'
 class EditLocation extends Component{
 constructor(props){
     super(props)
@@ -14,7 +14,7 @@ constructor(props){
     componentDidMount(){
         const { match } = this.props;
 		if (!this.props.location && match.params._id) {
-		  this.props.fetchLocationById(match.params._id);
+          this.props.fetchLocationById(match.params._id);
 		}
     }
     handleChange=e=>{
@@ -36,16 +36,19 @@ constructor(props){
 
         }
 
-	}
+    }
+    
+    onSubmit=()=>{
+        const {title,content} = this.state;
+        const {match} = this.props;
+        this.props.editLocation(title,content,match.params._id);
+    }
     render(){
-        //console.log(this.props.location)
         return(
             <div>
-                <form>
                     <input name="title" value={this.state.title} onChange={this.handleChange}/>
                     <input name="content" value={this.state.content} onChange={this.handleChange}/>
-                    <input type="submit"/>
-                </form>
+                    <input onClick={this.onSubmit} type="submit"/>
             </div>
         )
     }
@@ -57,6 +60,7 @@ const mapStateToProps=({location,locationOne},props)=>{
     }
 }
 const mapDispatchToProps = {
-    fetchLocationById
+    fetchLocationById,
+    editLocation
 }
 export default connect(mapStateToProps,mapDispatchToProps)(EditLocation)
