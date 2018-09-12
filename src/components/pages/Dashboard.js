@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {fetchLocation,editLocation} from '../../actions/location'
 import { connect } from 'react-redux';
 import Location from '../Location'
+import Loader from '../elements/loader'
 class Dashboard extends Component {
   static propTypes = {
 		location: PropTypes.object.isRequired
@@ -11,7 +12,7 @@ class Dashboard extends Component {
     this.props.fetchLocation()
   }
   render() {
-    const x = this.props.location.locationList.map((i,index)=>{
+    const Locations = this.props.location.locationList.map((i,index)=>{
       return(
         <Location key={index} location={i}/>
       )
@@ -19,8 +20,8 @@ class Dashboard extends Component {
 
     return (
       <div className="App">
-        {this.props.location.fetched || <p>loading</p>}
-         {x}
+        {this.props.location.fetched || <Loader size="40px"/> }
+         {Locations}
       </div>
     );
   }

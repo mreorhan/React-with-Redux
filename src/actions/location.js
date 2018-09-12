@@ -22,10 +22,15 @@ export function fetchLocationById(id){
     
 }
 
-export function addLocation({title,content,contributors="5af830f2a1507929ec16a221",createdBy="5af830f2a1507929ec16a221",storyId="1",status=2,dueDate="2018-09-08T11:22"}){
+export function addLocation(title,content){
+    let contributors="5af830f2a1507929ec16a221",
+        createdBy="5af830f2a1507929ec16a221",
+        storyId="1",
+        status=2,
+        dueDate="2018-09-08T11:22";
     return dispatch=>{
         dispatch({
-            type:"EDIT_LOCATIONS",
+            type:"ADD_LOCATION",
             payload: Axios.post(`${API_BASE}/tasks`,{
                 storyId,
                 title,
@@ -46,6 +51,14 @@ export function editLocation(title,content,id){
                 title:`${title}`,
                 content:`${content}`,
             })
+        })
+    }
+}
+export function deleteLocation(id){
+    return dispatch=>{
+        dispatch({
+            type:"DELETE_LOCATION",
+            payload: Axios.delete(`${API_BASE}/tasks/delete/${id}`)
         })
     }
 }

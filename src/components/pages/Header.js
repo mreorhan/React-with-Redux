@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link} from 'react-router-dom'
 import '../../App.js'
 const Header = ()=>{
     return(
         <div className="header">
-            header
+            <Link to="/">Home</Link>
         </div>
     )
 }
