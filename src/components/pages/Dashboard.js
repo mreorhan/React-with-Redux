@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {fetchLocation} from '../../actions/location'
+import {fetchLocation,editLocation} from '../../actions/location'
 import { connect } from 'react-redux';
+import Location from '../Location'
 class Dashboard extends Component {
   static propTypes = {
 		location: PropTypes.object.isRequired
@@ -10,12 +11,12 @@ class Dashboard extends Component {
     this.props.fetchLocation()
   }
   render() {
-    console.log(this.props.location.locationList)
     const x = this.props.location.locationList.map((i,index)=>{
       return(
-        <p key={index}>{i.title}</p>
+        <Location key={index} location={i}/>
       )
     })
+
     return (
       <div className="App">
         {this.props.location.fetched || <p>loading</p>}
@@ -27,9 +28,11 @@ class Dashboard extends Component {
 const mapStateToProps=({location})=>{
   return{
     location
+    
   }
 }
 const mapDispatchToProps = {
-	fetchLocation
+    fetchLocation,
+    editLocation
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Dashboard);
