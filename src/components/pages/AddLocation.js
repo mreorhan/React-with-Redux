@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {ERROR_BLANK} from '../elements/location_en'
+import {ERROR_BLANK, ERROR_FETCH, ERROR_FETCH_ADD} from '../elements/location_en'
 import {addLocation} from '../../actions/location'
 import {Redirect} from 'react-router-dom'
 
@@ -13,6 +13,7 @@ constructor(props){
         errors:{}
     }
     this.handleChange = this.handleChange.bind(this)
+    this.form = this.form.bind(this)
 }
     handleChange=e=>{
         this.setState({
@@ -27,17 +28,20 @@ constructor(props){
 	};
     onSubmit=()=>{
         const errors = this.validate();
-        this.setState({
-			errors,
-			redirect: true
-		});
+       
         const {title,content} = this.state;
-
-        if (Object.keys(errors).length === 0) 
+        this.setState({
+            errors
+        });
+        if (Object.keys(errors).length === 0){
             this.props.addLocation(title,content)
+            this.setState({
+                redirect: true
+            });
+        }
             
     }
-    render(){
+    form =()=>{
         const form = <div>
             <input name="title" value={this.state.title} onChange={this.handleChange}/>
             {this.state.errors.title}
@@ -45,14 +49,22 @@ constructor(props){
             {this.state.errors.content}
             <input onClick={this.onSubmit} type="submit"/>    
         </div>
+
+        if(this.props.locationOne.doneAdd && this.state.redirect)
+            return <Redirect to="/"/>
+        else
+            return form
+    }
+    render(){
+        
         
         return(
             
            <div>
             {
-                this.props.locationOne.done && this.state.redirect
-                    ? <Redirect to="/" /> : form
+                this.form()
             }
+            {!this.props.locationOne.doneAdd && this.props.locationOne.error!=="" ? <p>{ERROR_FETCH}<br/><b>{ERROR_FETCH_ADD}</b></p> :""}
             </div>
         )
     }

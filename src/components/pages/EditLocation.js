@@ -14,6 +14,7 @@ constructor(props){
     }
     console.log(this.props.location)
     this.handleChange = this.handleChange.bind(this)
+    this.onDelete = this.onDelete.bind(this)
 }
     componentDidMount(){
         const { match } = this.props;
@@ -46,22 +47,16 @@ constructor(props){
 		    if (!this.state.title) errors.title = ERROR_BLANK
 		    if (!this.state.content) errors.content = ERROR_BLANK
 		return errors;
-	};
-    onDelete =()=> {
+    };
+    
+    async onDelete() {
         const {match,deleteLocation} = this.props;
-        var promise1 = new Promise(function(resolve, reject) {
-            deleteLocation(match.params._id);
-          });
-          
-          promise1.then(function() {
-              const x= this.props.locationOne.done===true ? "ok":" not" 
-              console.log(x)
-          });
-          
-          
+        await deleteLocation(match.params._id);
+        const second = await this.props.locationOne;
         this.setState({
 			redirect: true
-		});
+        });
+        console.log("result", second)
       }
     onSubmit=()=>{
         const errors = this.validate();
@@ -85,7 +80,6 @@ constructor(props){
         <input onClick={this.onSubmit} type="submit"/>
         <input onClick={this.onDelete} type="submit" value="Delete"/>       
 </div>
-console.log(this.props.locationOne.done)
         return(
             <div>
                 {

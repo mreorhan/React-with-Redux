@@ -13,10 +13,13 @@ import {
 
 const initialState={
     error:null,
+    errorDelete:null,
     fetched:false,
+    fetchedDelete:false,
     location:[],
     result:null,
-    done:false
+    done:false,
+    doneAdd:false
 }
 
 export default(state=initialState,action)=>{
@@ -41,37 +44,39 @@ export default(state=initialState,action)=>{
         case DELETE_LOCATION_PENDING:
             return {
                 ...state,
-                fetched:false
+                fetchedDelete:false
             };
         case DELETE_LOCATION_FULFILLED:
 			return {
-				...state,
-                result: action.payload.data.status,
+                ...state,
+                fetchedDelete:true,
                 done:true
 			};
-		case DELETE_LOCATION_REJECTED:
+        case DELETE_LOCATION_REJECTED:
 			return {
 				...state,
-                error: action.payload.data,
+                errorDelete: action.payload.data,
+                fetchedDelete:false,
                 done:false
             };
         
         case ADD_LOCATION_PENDING:
             return {
                 ...state,
-                fetched:false
+                fetched:false,
+                doneAdd:false
             };
         case ADD_LOCATION_FULFILLED:
 			return {
 				...state,
                 result: action.payload.data.status,
-                done:true
+                doneAdd:true
 			};
 		case ADD_LOCATION_REJECTED:
 			return {
 				...state,
-                error: action.payload.data,
-                done:false
+                error: action.payload.message,
+                doneAdd:false
 			};
         default:
             return state

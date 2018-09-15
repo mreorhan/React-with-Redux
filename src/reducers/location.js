@@ -26,7 +26,7 @@ export default(state=initialState,action)=>{
 		case FETCH_LOCATIONS_REJECTED:
 			return {
 				...state,
-                error: action.payload,
+                error: action.payload.message,
                 fetched:false
             };
         default:
